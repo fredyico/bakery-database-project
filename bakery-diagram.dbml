@@ -1,0 +1,51 @@
+
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+table bread {
+  code INTEGER [primary key]
+  name VARCHAR
+}
+
+table client {
+  client_id INTEGER [primary key]
+  name VARCHAR
+  phone BIGINT
+  delivery BOOL
+}
+
+table bread_recipe {
+  id_recipe INTEGER [primary key]
+  id_bread INTEGER [not null, ref: < bread.code]
+}
+
+table price {
+  id_bread INTEGER [primary key, ref: > bread.code]
+  regular_price FLOAT
+  contract_price FLOAT
+  special_price FLOAT [default: NULL]
+}
+
+table daily_store_number {
+  id_bread INTEGER [primary key, not null, ref: > bread.code]
+  monday INTEGER [default: 0]
+  tuesday INTEGER [default: 0]
+  wednesday INTEGER [default: 0]
+  thursday INTEGER [default: 0]
+  friday INTEGER [default: 0]
+  saturday INTEGER [default: 0]
+  sunday INTEGER [default: 0]
+}
+
+table daily_clients_number {
+  id_bread INTEGER [not null, ref: > bread.code]
+  client_id INTEGER [not null, ref: > client.client_id]
+  monday INTEGER [default: 0]
+  tuesday INTEGER [default: 0]
+  wednesday INTEGER [default: 0]
+  thursday INTEGER [default: 0]
+  friday INTEGER [default: 0]
+  saturday INTEGER [default: 0]
+  sunday INTEGER [default: 0]
+  primary key (id_bread, client_id)
+}
