@@ -1,88 +1,94 @@
+
 # 🍞 Bakery Database Project
 
-This is a relational database project for managing a fictional bakery's operations. It was created as part of the final assignment for Codecademy's SQL curriculum. The database handles bread production, client management, pricing, recipes, and daily order tracking.
+This is a relational database project designed for a fictional bakery business. It manages daily bread production, client orders, pricing structures, and recipes. The project was built as part of the final assignment for Codecademy's SQL and Databases curriculum.
 
 ---
 
 ## 📘 Project Overview
 
-The bakery database is designed to:
-- Track types of bread produced
-- Manage client information and delivery preferences
-- Store bread recipe references
-- Define pricing tiers (regular, contract, special)
-- Monitor daily production by the store
-- Log daily bread orders by each client
+The database includes:
+- A catalog of bread types
+- A list of clients and their delivery preferences
+- Daily production tracking for each bread type
+- Client-specific daily ordering
+- Recipes per bread
+- Tiered pricing for each bread (regular, contract, and special)
 
 ---
 
-## 🗂️ Database Schema
+## 🗂️ Schema Structure
 
-The database is normalized (3NF) and uses:
-- `PRIMARY KEY` / `FOREIGN KEY` constraints
-- Default values
-- Composite keys
-- Refactoring to avoid redundancy
+**Tables:**
+- `bread`: Bread catalog
+- `client`: Business clients
+- `bread_recipe`: Links bread to recipe ID
+- `price`: Holds regular, contract, and special pricing
+- `daily_store_number`: Weekly bread production per type
+- `daily_clients_number`: Weekly bread orders per client per type
 
-**Tables Included:**
-- `bread`
-- `client`
-- `bread_recipe`
-- `price`
-- `daily_store_number`
-- `daily_clients_number`
-
-📄 See the schema in [`bakery_schema.sql`](./bakery_schema.sql)  
-📊 You can also view or edit the schema using [`bakery_schema.dbml`](./bakery_schema.dbml)
+The database is normalized up to 3NF and uses appropriate `PRIMARY KEY`, `FOREIGN KEY`, and `DEFAULT` constraints.
 
 ---
 
-## 🚀 How to Set Up
+## ⚙️ Technologies Used
 
-1. **Create a PostgreSQL database** (e.g. `bakerydb`)
-2. **Run the schema SQL file:**
+- PostgreSQL
+- SQL
+- dbdiagram.io (ERD Design)
+- psql (Command-line PostgreSQL tool)
+- Postbird (PostgreSQL GUI)
+
+---
+
+## 🚀 How to Use
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/bakery-database-project.git
+   ```
+
+2. Create a new database (e.g., `bakerydb`)
+
+3. Run the schema:
    ```bash
    psql -U postgres -d bakerydb -f bakery_schema.sql
-3. **Insert sample data:**
+   ```
 
+4. Insert sample data:
    ```bash
    psql -U postgres -d bakerydb -f bakery_sample_data.sql
    ```
-4. **Try example queries:**
 
-```bash
-psql -U postgres -d bakerydb -f bakery_queries.sql
-```
-You can also run individual queries using tools like Postbird or pgAdmin.
+5. Optionally, run example queries from `bakery_queries.sql`
 
-🔍 Sample Queries
-Here are a few examples from bakery_queries.sql:
+---
 
-sql
-Copiar
-Editar
--- Weekly bread production totals
-SELECT b.name, 
-       (ds.monday + ds.tuesday + ds.wednesday + ds.thursday + ds.friday + ds.saturday + ds.sunday) AS total_production
+## 🔍 Sample Queries
+
+```sql
+-- Total weekly bread production
+SELECT b.name, (ds.monday + ds.tuesday + ds.wednesday + ds.thursday + ds.friday + ds.saturday + ds.sunday) AS total
 FROM bread b
 JOIN daily_store_number ds ON b.code = ds.id_bread;
 
--- Most ordered breads per client
+-- Clients with highest orders
 SELECT c.name AS client, b.name AS bread,
        (dc.monday + dc.tuesday + dc.wednesday + dc.thursday + dc.friday + dc.saturday + dc.sunday) AS total_ordered
 FROM daily_clients_number dc
 JOIN client c ON dc.client_id = c.client_id
 JOIN bread b ON dc.id_bread = b.code
 ORDER BY total_ordered DESC;
-🧱 ERD Diagram
-You can view or edit the ERD on dbdiagram.io using this file:
+```
 
-bakery_schema.dbml
+---
 
-You can also export a .png or .pdf version of the ERD directly from the site.
+## 📈 ERD
 
-📄 License
-This project is for educational and portfolio use. You are free to fork, clone, and modify for non-commercial purposes.
+Included in both `.dbml` (editable) and `.png` (image) format.
 
-🙌 Acknowledgments
-Thanks to Codecademy’s CS103 - Databases course and the dbdiagram.io tool for helping structure and visualize this project.
+---
+
+## 📄 License
+
+This project is for educational and portfolio use.
