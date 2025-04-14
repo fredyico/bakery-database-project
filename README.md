@@ -45,16 +45,14 @@ The database is normalized (3NF) and uses:
    psql -U postgres -d bakerydb -f bakery_schema.sql
 3. **Insert sample data:**
 
-bash
-Copiar
-Editar
-psql -U postgres -d bakerydb -f bakery_sample_data.sql
+   ```bash
+   psql -U postgres -d bakerydb -f bakery_sample_data.sql
+   ```
 4. **Try example queries:**
 
-bash
-Copiar
-Editar
+```bash
 psql -U postgres -d bakerydb -f bakery_queries.sql
+```
 You can also run individual queries using tools like Postbird or pgAdmin.
 
 🔍 Sample Queries
